@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Me</title>
+  <script src="/static/js/htmx.min.js"></script>
+  <script src="/static/js/alpine.min.js"></script>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>About Me</h1>
+    <nav>
+      <a href="/" hx-get="/" hx-target="#content" hx-swap="innerHTML">Home</a>
+      <a href="/about" hx-get="/about" hx-target="#content" hx-swap="innerHTML">About</a>
+    </nav>
+  </header>
+  <div id="content">
+    <p>Hello! I'm a passionate software developer...</p>
+    <p>Feel free to explore my portfolio and projects!</p>
+  </div>
+</body>
+</html>
+

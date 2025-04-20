@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Me</title>
+  <script src="/static/js/htmx.min.js"></script>
+  <script src="/static/js/alpine.min.js"></script>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Contact Me</h1>
+    <nav>
+      <a href="/" hx-get="/" hx-target="#content" hx-swap="innerHTML">Home</a>
+      <a href="/about" hx-get="/about" hx-target="#content" hx-swap="innerHTML">About</a>
+      <a href="/contact" hx-get="/contact" hx-target="#content" hx-swap="innerHTML">Contact</a>
+    </nav>
+  </header>
+  <div id="content">
+    <form id="contact-form" hx-post="/send-message" hx-target="#form-feedback" hx-swap="innerHTML">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <div id="form-feedback"></div>
+  </div>
+</body>
+</html>
+

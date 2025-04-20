@@ -1,0 +1,10 @@
+{{range .}}
+<li>
+  <h3>{{.Title}}</h3>
+  <p>{{.Description}}</p>
+  <a href="{{.Link}}" target="_blank">View Project</a>
+</li>
+{{else}}
+<li>No projects found.</li>
+{{end}}
+
