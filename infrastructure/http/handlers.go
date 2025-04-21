@@ -5,8 +5,12 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/jmechavez/jmgofolio/infrastructure/db"
+	"github.com/jmechavez/jmgofolio/internal/ports"
 )
+
+type AppHandler struct {
+	PortfolioService ports.PortfolioService
+}
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("templates/index.html")
@@ -35,7 +39,7 @@ func AboutHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func ContactHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("templates/contact.html")
+	t, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -47,12 +51,27 @@ func ContactHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (h AppHandler) PortfolioJSONHandler(w http.ResponseWriter, r *http.Request) {
+
+	portfolio, err := h.PortfolioService.MyPortfolio()
+	if err != nil {
+		writeResponse(w, http.StatusInternalServerError, err)
+		return
+	}
+	if portfolio == nil {
+		writeResponse(w, http.StatusNotFound, nil)
+		return
+	}
+
+	writeResponse(w, http.StatusOK, portfolio)
+}
+
 //	func ProjectsJSONHandler(w http.ResponseWriter, r *http.Request) {
 //		json.NewEncoder(w).Encode(db.Projects)
 //	}
-func ProjectsJSONHandler(w http.ResponseWriter, r *http.Request) {
-	writeResponse(w, http.StatusOK, db.Projects)
-}
+// func ProjectsJSONHandler(w http.ResponseWriter, r *http.Request) {
+// 	writeResponse(w, http.StatusOK, db.Projects)
+// }
 
 func writeResponse(w http.ResponseWriter, code int, data interface{}) {
 	w.Header().Set("Content-Type", "application/json")

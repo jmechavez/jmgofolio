@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/jmechavez/jmgofolio/errors"
+	"github.com/jmechavez/jmgofolio/internal/dto"
 )
 
 // UserProfile corresponds to the 'UserProfile' table
@@ -115,6 +116,24 @@ type ProjectMedia struct {
 	SortOrder *int    `json:"sort_order,omitempty" db:"sort_order"` // Pointer for optional field
 }
 
+func (p UserProfile) UserProfile() dto.UserProfileResponse {
+	return dto.UserProfileResponse{
+		UserID:            p.UserID,
+		FirstName:         p.FirstName,
+		LastName:          p.LastName,
+		Tagline:           p.Tagline,
+		Bio:               p.Bio,
+		Email:             p.Email,
+		Phone:             p.Phone,
+		Location:          p.Location,
+		ProfilePictureURL: p.ProfilePictureURL,
+		ResumeURL:         p.ResumeURL,
+		LinkedInURL:       p.LinkedInURL,
+		GithubURL:         p.GithubURL,
+		PortfolioURL:      p.PortfolioURL,
+	}
+}
+
 type PortfolioRepository interface {
-	MyProfile() ([]UserProfile, *errors.AppError)
+	MyProfile() (*UserProfile, *errors.AppError)
 }
