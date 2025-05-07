@@ -28,7 +28,7 @@ func Start() {
 	}
 
 	router.HandleFunc("/api/portfolio", ph.PortfolioJSONHandler).Methods("GET")
-
+	router.HandleFunc("/api/htmlportfolio",ph.PorfolioHTTPHandler).Methods("GET")
 	router.PathPrefix("/static/").
 		Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	router.HandleFunc("/", IndexHandler).Methods("GET")

@@ -7,22 +7,13 @@
   <title>Welcome</title>
   <!-- Load scripts -->
   <script src="/static/js/htmx.min.js"></script>
-  <script src="/static/js/alpine.min.js" defer></script>
+  <script src="/static/js/alpine.min.js"></script>
+  <script src="/static/js/profile.js"></script>
   <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
-  <header>
-    <h1>Welcome to my portfolio</h1>
-    <nav>
-      <a href="/" hx-get="/" hx-target="#content" hx-swap="innerHTML">Home</a>
-      <a href="/about" hx-get="/about" hx-target="#content" hx-swap="innerHTML">About</a>
-    </nav>
-  </header>
-
   <div id="content">
-    <p>Welcome to my site!</p>
-
     <!-- Profile Section using Alpine.js -->
     <div x-data="profileData()" x-init="fetchProfile()">
       <!-- Loading State -->
@@ -86,182 +77,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Projects Section with Alpine.js -->
-    <div x-data="{ loading: false, projects: [] }">
-      <h3>My Projects</h3>
-      <button @click="
-        loading = true;
-        fetch('/projects/html')
-          .then(res => res.json())
-          .then(data => {
-            const list = document.getElementById('project-list');
-            list.innerHTML = '';
-            data.forEach(p => {
-              list.innerHTML += `<li>
-                <h3>${p.name || p.title}</h3>
-                <p>${p.description}</p>
-                ${p.link ? `<a href='${p.link}' target='_blank'>View Project</a>` : ''}
-              </li>`;
-            });
-            loading = false;
-          })
-          .catch(err => {
-            console.error(err);
-            document.getElementById('project-list').innerHTML = '<li>Error loading projects</li>';
-            loading = false;
-          })
-      ">
-        Load Projects
-      </button>
-      <div x-show="loading">Loading...</div>
-      <ul id="project-list"></ul>
-    </div>
   </div>
-
-  <script>
-    // Alpine.js component
-    function profileData() {
-      return {
-        profile: null,
-        loading: true,
-        error: null,
-        fetchProfile() {
-          this.loading = true;
-          fetch('/api/portfolio')
-            .then(res => {
-              if (!res.ok) throw new Error('Failed to load profile data');
-              return res.json();
-            })
-            .then(data => {
-              this.profile = data;
-              this.loading = false;
-            })
-            .catch(err => {
-              this.error = err.message;
-              this.loading = false;
-              console.error('Error fetching profile:', err);
-            });
-        }
-      }
-    }
-  </script>
-
-  <style>
-    /* Profile Styling */
-    [x-cloak] {
-      display: none !important;
-    }
-
-    .profile-container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 1.5rem;
-      background-color: #f9f9f9;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      border: 1px solid #ccc;
-    }
-
-    .profile-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-
-    .profile-image {
-      width: 120px;
-      height: 120px;
-      margin-right: 2rem;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 3px solid #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .profile-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .profile-info h2 {
-      margin: 0 0 0.5rem;
-      font-size: 2rem;
-      color: #333;
-    }
-
-    .tagline {
-      font-style: italic;
-      color: #555;
-      margin: 0 0 0.5rem;
-    }
-
-    .location {
-      color: #777;
-      margin: 0;
-    }
-
-    .bio-section,
-    .contact-section,
-    .links-section {
-      margin-bottom: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid #eee;
-    }
-
-    .bio-section h3,
-    .contact-section h3,
-    .links-section h3 {
-      color: #333;
-      border-left: 4px solid #007bff;
-      padding-left: 0.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .contact-section ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .contact-section li {
-      margin-bottom: 0.5rem;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .social-link {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background-color: #007bff;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      transition: background-color 0.2s;
-    }
-
-    .social-link:hover {
-      background-color: #0056b3;
-    }
-
-    .loading-indicator {
-      text-align: center;
-      padding: 2rem;
-      color: #555;
-    }
-
-    .error-message {
-      color: #721c24;
-      background-color: #f8d7da;
-      padding: 1rem;
-      border-radius: 4px;
-      margin: 1rem 0;
-    }
-  </style>
 </body>
-
 </html>

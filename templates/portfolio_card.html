@@ -1,0 +1,21 @@
+{{/* Define this block as the "portfolioCard" template */}} {{ define
+"portfolioCard" }}
+<div class="profile-card">
+  <h2>{{.FirstName}} {{.LastName}}</h2>
+  <p class="tagline">{{.Tagline}}</p>
+  <div class="bio">{{.Bio}}</div>
+  <div class="contact-info">
+    <p><strong>Email:</strong> {{.Email}}</p>
+    <p><strong>Phone:</strong> {{.Phone}}</p>
+    <p><strong>Location:</strong> {{.Location}}</p>
+  </div>
+  <div class="links">
+    {{if .ResumeURL}}<a href="{{.ResumeURL}}" target="_blank">Resume</a>{{end}}
+    {{if .LinkedInURL}}<a href="{{.LinkedInURL}}" target="_blank">LinkedIn</a
+    >{{end}} {{if .GithubURL}}<a href="{{.GithubURL}}" target="_blank">GitHub</a
+    >{{end}} {{if .PortfolioURL}}<a href="{{.PortfolioURL}}" target="_blank"
+      >Portfolio</a
+    >{{end}}
+  </div>
+</div>
+{{ end }}
